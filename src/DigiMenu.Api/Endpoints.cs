@@ -47,7 +47,8 @@ public static class Endpoints
             .WithTags("Usuarios");
 
         endpoints.MapPublicGroup()
-            .MapEndpoint<GetUsuarioById>();
+            .MapEndpoint<GetUsuarioById>()
+            .MapEndpoint<ListarUsuarios>();
 
         //endpoints.MapAuthorizedGroup()
         //    .MapEndpoint<FollowUser>()

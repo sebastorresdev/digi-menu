@@ -14,7 +14,7 @@ public partial class Usuario : IEntity
 
     public DateTime? FechaNacimiento { get; set; }
 
-    public string? TipoDocumento { get; set; }
+    public string TipoDocumento { get; set; } = null!;
 
     public string NumeroDocumento { get; set; } = null!;
 
@@ -23,6 +23,8 @@ public partial class Usuario : IEntity
     public int? RolId { get; set; }
 
     public DateTime? FechaCreacion { get; set; }
+
+    public bool Estado { get; set; } = true;
 
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 

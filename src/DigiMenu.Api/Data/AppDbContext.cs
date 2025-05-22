@@ -33,7 +33,7 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
     public virtual DbSet<Salon> Salones { get; set; }
 
-    public virtual DbSet<UnidadesMedidum> UnidadesMedida { get; set; }
+    public virtual DbSet<UnidadMedida> UnidadesMedida { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
@@ -369,7 +369,7 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
                 .HasColumnName("nombre");
         });
 
-        modelBuilder.Entity<UnidadesMedidum>(entity =>
+        modelBuilder.Entity<UnidadMedida>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("unidades_medida_pkey");
 

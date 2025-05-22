@@ -20,5 +20,5 @@ public partial class Insumo : IEntity
 
     public virtual ICollection<RecetaProducto> RecetaProductos { get; set; } = new List<RecetaProducto>();
 
-    public virtual UnidadesMedidum Unidad { get; set; } = null!;
+    public virtual UnidadMedida Unidad { get; set; } = null!;
 }

@@ -1,7 +1,6 @@
 ﻿using DigiMenu.Api.Common.Api;
 using DigiMenu.Api.Common.Api.Extensions;
 using DigiMenu.Api.Data;
-using DigiMenu.Api.Data.Entities;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +12,7 @@ public class GetUsuarioById : IEndpoint
     public static void Map(IEndpointRouteBuilder app) => app
         .MapGet("/{id:int}", Handle)
         .WithSummary("Get usuario by Id")
-        .WithRequestValidation<Request>()
-        .WithEnsureEntityExists<Usuario, Request>(x => x.Id);
+        .WithRequestValidation<Request>();
 
     public record Request(int Id);
     public class RequestValidator : AbstractValidator<Request>

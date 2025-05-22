@@ -1,0 +1,64 @@
+<!-- LISTAR LOS USUARIOS -->
+
+<p-card>
+  <p-toolbar styleClass="mb-6">
+    <ng-template #start>
+      <p-button label="New" icon="pi pi-plus" class="mr-2" (click)="abrirDialog()"/>
+      <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined />
+    </ng-template>
+
+    <ng-template #end>
+      <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" auto customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
+            <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV($event)" /> -->
+    </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="usuarios" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [showCurrentPageReport]="true">
+    <ng-template #caption>
+      <div class="flex items-center justify-between">
+        <h5 class="text-xl font-bold">Lista de usuarios</h5>
+        <p-iconfield>
+          <p-inputicon styleClass="pi pi-search" />
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Search..." />
+        </p-iconfield>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Username</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-usuario>
+      <tr>
+        <td>{{ usuario.nombres }}</td>
+        <td>{{ usuario.apellidos }}</td>
+        <td>{{ usuario.username }}</td>
+        <td>
+          <p-tag [value]="usuario.estado" [severity]="getSeverity(usuario.estado)" />
+        <td>
+          <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+            (click)="editarUsuario(usuario)" />
+          <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+            (click)="eliminarUsuario(usuario.id)" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #summary>
+      <div class="flex items-center justify-between">En total hay {{ usuarios ? usuarios.length : 0 }} usuarios.
+      </div>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<app-usuario-dialog
+  [(visible)]="mostrarDialog"
+  (guardar)="onGuardarUsuario($event)">
+</app-usuario-dialog>

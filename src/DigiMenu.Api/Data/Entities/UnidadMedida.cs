@@ -1,6 +1,6 @@
 ﻿namespace DigiMenu.Api.Data.Entities;
 
-public partial class UnidadesMedidum : IEntity
+public partial class UnidadMedida : IEntity
 {
     public int Id { get; set; }
 
