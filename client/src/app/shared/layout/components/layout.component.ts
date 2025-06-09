@@ -12,7 +12,5 @@ import { TopbarComponent } from './topbar.component';
   templateUrl: './layout.component.html',
 })
 export class LayoutComponent {
-  constructor() {
-    console.log('LayoutComponent creado');
-  }
+  constructor() {}
 }

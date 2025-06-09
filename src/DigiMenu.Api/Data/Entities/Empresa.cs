@@ -17,5 +17,5 @@ public partial class Empresa : IEntity
 
     public string? Email { get; set; }
 
-    public DateTime? FechaCreacion { get; set; }
+    public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 }

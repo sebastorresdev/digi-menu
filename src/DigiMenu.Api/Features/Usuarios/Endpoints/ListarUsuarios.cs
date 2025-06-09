@@ -1,6 +1,4 @@
 ﻿using DigiMenu.Api.Common.Api;
-using DigiMenu.Api.Common.Api.Extensions;
-using DigiMenu.Api.Common.Api.Requests;
 using DigiMenu.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,31 +12,23 @@ public class ListarUsuarios : IEndpoint
 
     public record Response(
         int Id,
-        string Nombres,
-        string Apellidos,
-        string? Direccion,
-        DateTime? FechaNacimiento,
-        DateTime? FechaCreacion,
         string Username,
-        string NumeroDocumento,
-        string TipoDocumento,
-        bool Estado
-        );
+        DateTime FechaCreacion,
+        string NombreRol,
+        string NombreEmpleado,
+        bool Estado);
 
     public static async Task<List<Response>> Handle(AppDbContext database, CancellationToken cancellationToken)
     {
         return await database.Usuarios
+            .AsNoTracking()
             .Select(u => new Response
             (
                 u.Id,
-                u.Nombres,
-                u.Apellidos,
-                u.Direccion,
-                u.FechaNacimiento,
-                u.FechaCreacion,
                 u.Username,
-                u.NumeroDocumento,
-                u.TipoDocumento,
+                u.FechaCreacion,
+                u.Rol.Nombre,
+                $"{u.Empleado.Nombres } {u.Empleado.Apellidos}",
                 u.Estado
             ))
             .ToListAsync(cancellationToken);

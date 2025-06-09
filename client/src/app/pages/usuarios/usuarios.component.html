@@ -3,11 +3,12 @@
 <p-card>
   <p-toolbar styleClass="mb-6">
     <ng-template #start>
-      <p-button label="New" icon="pi pi-plus" class="mr-2" (click)="abrirDialog()"/>
-      <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined />
+      <p-button label="Nuevo" icon="pi pi-plus" class="mr-2" (click)="abrirDialog()" />
+      <p-button severity="danger" label="Eliminar" icon="pi pi-trash" outlined />
     </ng-template>
 
     <ng-template #end>
+      <p-button label="Exportar" icon="pi pi-upload" severity="secondary"/>
       <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" auto customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
             <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV($event)" /> -->
     </ng-template>
@@ -18,7 +19,7 @@
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [showCurrentPageReport]="true">
     <ng-template #caption>
       <div class="flex items-center justify-between">
-        <h5 class="text-xl font-bold">Lista de usuarios</h5>
+        <h5 class="font-bold">Lista de usuarios</h5>
         <p-iconfield>
           <p-inputicon styleClass="pi pi-search" />
           <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
@@ -28,9 +29,9 @@
     </ng-template>
     <ng-template #header>
       <tr>
-        <th>Nombres</th>
-        <th>Apellidos</th>
-        <th>Username</th>
+        <th>Nombre Usuario</th>
+        <th>Rol</th>
+        <th>Nombre Empleado</th>
         <th>Estado</th>
         <th>Acciones</th>
       </tr>
@@ -38,9 +39,9 @@
 
     <ng-template #body let-usuario>
       <tr>
-        <td>{{ usuario.nombres }}</td>
-        <td>{{ usuario.apellidos }}</td>
         <td>{{ usuario.username }}</td>
+        <td>{{ usuario.nombreRol }}</td>
+        <td>{{ usuario.nombreEmpleado }}</td>
         <td>
           <p-tag [value]="usuario.estado" [severity]="getSeverity(usuario.estado)" />
         <td>
@@ -60,5 +61,5 @@
 
 <app-usuario-dialog
   [(visible)]="mostrarDialog"
-  (guardar)="onGuardarUsuario($event)">
+  (guardarEvent)="onGuardarUsuario($event)">
 </app-usuario-dialog>

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DigiMenu.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250522031343_AddEstadoToUsuario")]
-    partial class AddEstadoToUsuario
+    [Migration("20250526065347_CambiarEstadoPedidoAVarchar")]
+    partial class CambiarEstadoPedidoAVarchar
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,81 @@ namespace DigiMenu.Api.Migrations
                     b.ToTable("categorias_productos", (string)null);
                 });
 
+            modelBuilder.Entity("DigiMenu.Api.Data.Entities.Empleado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Apellidos")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("apellidos");
+
+                    b.Property<string>("Direccion")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("direccion");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("email");
+
+                    b.Property<bool>("Estado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("estado")
+                        .HasDefaultValueSql("true");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaNacimiento")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("fecha_nacimiento");
+
+                    b.Property<string>("Nombres")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("nombres");
+
+                    b.Property<string>("NumeroDocumento")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("numero_documento");
+
+                    b.Property<string>("NumeroTelefono")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("numero_telefono");
+
+                    b.Property<string>("TipoDocumento")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("tipo_documento");
+
+                    b.HasKey("Id")
+                        .HasName("empleado_pkey");
+
+                    b.HasIndex(new[] { "Email" }, "empleados_email_key")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "NumeroDocumento" }, "empleados_numero_documento_key")
+                        .IsUnique();
+
+                    b.ToTable("empleados", (string)null);
+                });
+
             modelBuilder.Entity("DigiMenu.Api.Data.Entities.Empresa", b =>
                 {
                     b.Property<int>("Id")
@@ -102,7 +177,7 @@ namespace DigiMenu.Api.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("email");
 
-                    b.Property<DateTime?>("FechaCreacion")
+                    b.Property<DateTime>("FechaCreacion")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_creacion")
@@ -284,10 +359,11 @@ namespace DigiMenu.Api.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("capacidad");
 
-                    b.Property<string>("Estado")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("estado");
+                    b.Property<string>("EstadoMesa")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("estado_mesa");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -319,12 +395,13 @@ namespace DigiMenu.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Estado")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("estado");
+                    b.Property<string>("EstadoPedido")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("estado_pedido");
 
-                    b.Property<DateTime?>("Fecha")
+                    b.Property<DateTime>("Fecha")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha")
@@ -361,10 +438,11 @@ namespace DigiMenu.Api.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("cantidad");
 
-                    b.Property<string>("Estado")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("estado");
+                    b.Property<string>("EstadoPedido")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("estado_pedido");
 
                     b.Property<string>("Observacion")
                         .HasColumnType("text")
@@ -572,29 +650,21 @@ namespace DigiMenu.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Apellidos")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("apellidos");
-
-                    b.Property<string>("Direccion")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("direccion");
+                    b.Property<int>("EmpleadoId")
+                        .HasColumnType("integer")
+                        .HasColumnName("empleado_id");
 
                     b.Property<bool>("Estado")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("estado")
+                        .HasDefaultValueSql("true");
 
-                    b.Property<DateTime?>("FechaCreacion")
+                    b.Property<DateTime>("FechaCreacion")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_creacion")
                         .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime?>("FechaNacimiento")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("fecha_nacimiento");
 
                     b.Property<string>("HashPassword")
                         .IsRequired()
@@ -602,40 +672,25 @@ namespace DigiMenu.Api.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("hash_password");
 
-                    b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("nombres");
-
-                    b.Property<string>("NumeroDocumento")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("numero_documento");
-
-                    b.Property<int?>("RolId")
+                    b.Property<int>("RolId")
                         .HasColumnType("integer")
                         .HasColumnName("rol_id");
 
-                    b.Property<string>("TipoDocumento")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("tipo_documento");
-
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("username");
 
                     b.HasKey("Id")
                         .HasName("usuarios_pkey");
 
+                    b.HasIndex("EmpleadoId")
+                        .IsUnique();
+
                     b.HasIndex("RolId");
 
-                    b.HasIndex(new[] { "NumeroDocumento" }, "usuarios_numero_documento_key")
+                    b.HasIndex(new[] { "Username" }, "usuarios_username_key")
                         .IsUnique();
 
                     b.ToTable("usuarios", (string)null);
@@ -785,11 +840,21 @@ namespace DigiMenu.Api.Migrations
 
             modelBuilder.Entity("DigiMenu.Api.Data.Entities.Usuario", b =>
                 {
+                    b.HasOne("DigiMenu.Api.Data.Entities.Empleado", "Empleado")
+                        .WithOne("Usuario")
+                        .HasForeignKey("DigiMenu.Api.Data.Entities.Usuario", "EmpleadoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("usuarios_empleado_id_fkey");
+
                     b.HasOne("DigiMenu.Api.Data.Entities.Rol", "Rol")
                         .WithMany("Usuarios")
                         .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired()
                         .HasConstraintName("usuarios_rol_id_fkey");
+
+                    b.Navigation("Empleado");
 
                     b.Navigation("Rol");
                 });
@@ -819,6 +884,11 @@ namespace DigiMenu.Api.Migrations
             modelBuilder.Entity("DigiMenu.Api.Data.Entities.CategoriasProducto", b =>
                 {
                     b.Navigation("Productos");
+                });
+
+            modelBuilder.Entity("DigiMenu.Api.Data.Entities.Empleado", b =>
+                {
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("DigiMenu.Api.Data.Entities.Estacion", b =>

@@ -26,11 +26,18 @@ public class Login : IEndpoint
         }
     }
 
-    private static async Task<Results<Ok<Response>, UnauthorizedHttpResult>> Handle(Request request, AppDbContext database, Jwt jwt, CancellationToken cancellationToken)
+    private static async Task<Results<Ok<Response>, UnauthorizedHttpResult>> Handle(
+        Request request, 
+        AppDbContext database,
+        IPasswordHasher passwordHasher,
+        Jwt jwt, 
+        CancellationToken cancellationToken)
     {
-        var user = await database.Usuarios.SingleOrDefaultAsync(x => x.Username == request.Username && x.HashPassword == request.Password, cancellationToken);
+        var user = await database.Usuarios
+            .SingleOrDefaultAsync(x => 
+            x.Username == request.Username, cancellationToken);
 
-        if (user is null || user.HashPassword != request.Password)
+        if (user is null || !passwordHasher.Verify(request.Password, user.HashPassword))
         {
             return TypedResults.Unauthorized();
         }

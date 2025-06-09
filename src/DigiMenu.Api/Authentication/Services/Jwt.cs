@@ -17,7 +17,6 @@ public class Jwt(IOptions<JwtOptions> options)
     public string GenerateToken(Usuario user)
     {
         var key = SecurityKey(options.Value.Key);
-        var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
         
         var token = new JwtSecurityToken
         (

@@ -1,4 +1,6 @@
-﻿namespace DigiMenu.Api.Data.Entities;
+﻿using DigiMenu.Api.Data.Enums;
+
+namespace DigiMenu.Api.Data.Entities;
 
 public partial class Pedido : IEntity
 {
@@ -8,9 +10,9 @@ public partial class Pedido : IEntity
 
     public int MesaId { get; set; }
 
-    public DateTime? Fecha { get; set; }
+    public DateTime Fecha { get; set; }
 
-    public string? Estado { get; set; }
+    public EstadoPedido EstadoPedido { get; set; } = EstadoPedido.Pendiente;
 
     public virtual Mesa Mesa { get; set; } = null!;
 

@@ -1,4 +1,6 @@
-﻿namespace DigiMenu.Api.Data.Entities;
+﻿using DigiMenu.Api.Data.Enums;
+
+namespace DigiMenu.Api.Data.Entities;
 
 public partial class PedidoDetalle : IEntity
 {
@@ -12,7 +14,7 @@ public partial class PedidoDetalle : IEntity
 
     public string? Observacion { get; set; }
 
-    public string? Estado { get; set; }
+    public EstadoPedido EstadoPedido { get; set; } = EstadoPedido.Pendiente;
 
     public virtual Pedido Pedido { get; set; } = null!;
 

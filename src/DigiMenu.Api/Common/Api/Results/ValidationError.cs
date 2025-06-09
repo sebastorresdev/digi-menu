@@ -12,7 +12,7 @@ public sealed class ValidationError : IResult, IEndpointMetadataProvider, IStatu
     {
         problem = TypedResults.ValidationProblem
         (
-            errors: new Dictionary<string, string[]>(),
+            errors: [],
             detail: errorMessage
         );
     }

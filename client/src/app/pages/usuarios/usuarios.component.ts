@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { UsuarioService } from './services/usuario.service';
-import { Usuario } from './interfaces/usuario';
+import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from '../../models/usuario';
 
 // PrimeNG
 import { TableModule } from 'primeng/table';
@@ -11,10 +11,14 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { Tag } from 'primeng/tag';
+
+// Proyecto
 import { UsuarioDialogComponent } from './components/usuario-dialog/usuario-dialog.component';
+import { CrearUsuarioRequest } from '../../models/crear-usuario-request';
 
 @Component({
   selector: 'app-usuarios',
+  templateUrl: './usuarios.component.html',
   imports: [
     TableModule,
     ButtonModule,
@@ -26,7 +30,6 @@ import { UsuarioDialogComponent } from './components/usuario-dialog/usuario-dial
     Tag,
     UsuarioDialogComponent,
   ],
-  templateUrl: './usuarios.component.html',
 })
 export class UsuariosComponent {
   _usuarioService = inject(UsuarioService);
@@ -38,7 +41,6 @@ export class UsuariosComponent {
   ngOnInit() {
     this._usuarioService.obtenerUsuarios().subscribe((data) => {
       this.usuarios = data;
-      console.log(data);
     });
   }
 
@@ -57,9 +59,12 @@ export class UsuariosComponent {
     this.mostrarDialog = true;
   }
 
-  onGuardarUsuario(usuario: any) {
-    // this._usuarioService.crearUsuario(usuario).subscribe(() => {
-    //   // recargar lista si es necesario
-    // });
+  onGuardarUsuario(nuevoUsuario: CrearUsuarioRequest) {
+    console.log('Nuevo usuario:', nuevoUsuario);
+    this._usuarioService.guardarUsuario(nuevoUsuario).subscribe((id) => {
+      console.log('Usuario guardado con ID:', id);
+    }, error => {
+      console.error('Error al guardar el usuario:', error.error);
+    });
   }
 }

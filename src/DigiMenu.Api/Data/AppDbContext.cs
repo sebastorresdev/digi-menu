@@ -37,6 +37,8 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<Empleado> Empleados { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CategoriaInsumo>(entity =>
@@ -47,11 +49,16 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.HasIndex(e => e.Nombre, "categoria_insumos_nombre_key").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+
             entity.Property(e => e.CodigoSunat)
                 .HasMaxLength(20)
                 .HasColumnName("codigo_sunat");
-            entity.Property(e => e.Descripcion).HasColumnName("descripcion");
+
+            entity.Property(e => e.Descripcion)
+                .HasColumnName("descripcion");
+
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
@@ -65,7 +72,9 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.HasIndex(e => e.Nombre, "categorias_productos_nombre_key").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
@@ -81,26 +90,36 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.HasIndex(e => e.Ruc, "empresa_ruc_key").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+
             entity.Property(e => e.Direccion)
                 .HasMaxLength(255)
                 .HasColumnName("direccion");
+            
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasColumnName("email");
+            
             entity.Property(e => e.FechaCreacion)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("fecha_creacion");
-            entity.Property(e => e.PaginaWeb).HasColumnName("pagina_web");
+            
+            entity.Property(e => e.PaginaWeb)
+                .HasColumnName("pagina_web");
+            
             entity.Property(e => e.RazonSocial)
                 .HasMaxLength(255)
                 .HasColumnName("razon_social");
+            
             entity.Property(e => e.Ruc)
                 .HasMaxLength(20)
                 .HasColumnName("ruc");
+            
             entity.Property(e => e.Sucursal)
                 .HasMaxLength(255)
                 .HasColumnName("sucursal");
+            
             entity.Property(e => e.Telefono)
                 .HasMaxLength(32)
                 .HasColumnName("telefono");
@@ -112,9 +131,12 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.ToTable("estaciones");
 
-            entity.HasIndex(e => e.Nombre, "estaciones_nombre_key").IsUnique();
+            entity.HasIndex(e => e.Nombre, "estaciones_nombre_key")
+                .IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+            
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
@@ -128,17 +150,24 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.HasIndex(e => e.Ip, "impresoras_ip_key").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.EstacionId).HasColumnName("estacion_id");
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+            
+            entity.Property(e => e.EstacionId)
+                .HasColumnName("estacion_id");
+            
             entity.Property(e => e.Ip)
                 .HasMaxLength(50)
                 .HasColumnName("ip");
+
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
+
             entity.Property(e => e.Puerto)
                 .HasMaxLength(10)
                 .HasColumnName("puerto");
+
             entity.Property(e => e.Tipo)
                 .HasMaxLength(50)
                 .HasColumnName("tipo");
@@ -156,24 +185,33 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.HasIndex(e => e.Nombre, "insumos_nombre_key").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CategoriaInsumoId).HasColumnName("categoria_insumo_id");
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+            
+            entity.Property(e => e.CategoriaInsumoId)
+                .HasColumnName("categoria_insumo_id");
+            
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
+
             entity.Property(e => e.PrecioUnitario)
                 .HasPrecision(10, 2)
                 .HasDefaultValueSql("0")
                 .HasColumnName("precio_unitario");
+
             entity.Property(e => e.StockActual)
                 .HasPrecision(10, 2)
                 .HasDefaultValueSql("0")
                 .HasColumnName("stock_actual");
+            
             entity.Property(e => e.StockMinimo)
                 .HasPrecision(10, 2)
                 .HasDefaultValueSql("0")
                 .HasColumnName("stock_minimo");
-            entity.Property(e => e.UnidadId).HasColumnName("unidad_id");
+            
+            entity.Property(e => e.UnidadId)
+                .HasColumnName("unidad_id");
 
             entity.HasOne(d => d.CategoriaInsumo).WithMany(p => p.Insumos)
                 .HasForeignKey(d => d.CategoriaInsumoId)
@@ -192,19 +230,30 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.ToTable("mesas");
 
-            entity.HasIndex(e => e.Nombre, "mesas_nombre_key").IsUnique();
+            entity.HasIndex(e => e.Nombre, "mesas_nombre_key")
+                .IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Capacidad).HasColumnName("capacidad");
-            entity.Property(e => e.Estado)
-                .HasMaxLength(20)
-                .HasColumnName("estado");
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+            
+            entity.Property(e => e.Capacidad)
+                .HasColumnName("capacidad");
+            
+            entity.Property(e => e.EstadoMesa)
+                .HasMaxLength(50)
+                .HasColumnType("varchar(50)")
+                .HasConversion<string>()
+                .HasColumnName("estado_mesa");
+            
             entity.Property(e => e.Nombre)
                 .HasMaxLength(10)
                 .HasColumnName("nombre");
-            entity.Property(e => e.SalonId).HasColumnName("salon_id");
+            
+            entity.Property(e => e.SalonId)
+                .HasColumnName("salon_id");
 
-            entity.HasOne(d => d.Salon).WithMany(p => p.Mesas)
+            entity.HasOne(d => d.Salon)
+                .WithMany(p => p.Mesas)
                 .HasForeignKey(d => d.SalonId)
                 .HasConstraintName("mesas_salon_id_fkey");
         });
@@ -216,13 +265,19 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.ToTable("pedidos");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Estado)
-                .HasMaxLength(20)
-                .HasColumnName("estado");
+
+            entity.Property(e => e.EstadoPedido)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnType("varchar(50)")
+                .HasColumnName("estado_pedido");
+            
             entity.Property(e => e.Fecha)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("fecha");
+            
             entity.Property(e => e.MesaId).HasColumnName("mesa_id");
+            
             entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
 
             entity.HasOne(d => d.Mesa).WithMany(p => p.Pedidos)
@@ -243,12 +298,19 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.ToTable("pedido_detalle");
 
             entity.Property(e => e.Id).HasColumnName("pedido_detalle_id");
+
             entity.Property(e => e.Cantidad).HasColumnName("cantidad");
-            entity.Property(e => e.Estado)
-                .HasMaxLength(20)
-                .HasColumnName("estado");
+            
+            entity.Property(e => e.EstadoPedido)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnType("varchar(50)")
+                .HasColumnName("estado_pedido");
+            
             entity.Property(e => e.Observacion).HasColumnName("observacion");
+            
             entity.Property(e => e.PedidoId).HasColumnName("pedido_id");
+            
             entity.Property(e => e.ProductoId).HasColumnName("producto_id");
 
             entity.HasOne(d => d.Pedido).WithMany(p => p.PedidoDetalles)
@@ -268,6 +330,7 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.ToTable("permisos");
 
             entity.Property(e => e.Id).HasColumnName("id");
+
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
@@ -280,11 +343,15 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.ToTable("productos");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            
             entity.Property(e => e.CategoriaProductoId).HasColumnName("categoria_producto_id");
+            
             entity.Property(e => e.EstacionId).HasColumnName("estacion_id");
+            
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
+            
             entity.Property(e => e.Precio)
                 .HasPrecision(10, 2)
                 .HasColumnName("precio");
@@ -305,7 +372,9 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.ToTable("receta_productos");
 
             entity.Property(e => e.ProductoId).HasColumnName("producto_id");
+            
             entity.Property(e => e.InsumoId).HasColumnName("insumo_id");
+            
             entity.Property(e => e.Cantidad)
                 .HasPrecision(10, 2)
                 .HasColumnName("cantidad");
@@ -326,9 +395,11 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.ToTable("roles");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(255)
                 .HasColumnName("descripcion");
+            
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
@@ -360,10 +431,13 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.HasIndex(e => e.Nombre, "salones_nombre_key").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            
             entity.Property(e => e.Capacidad).HasColumnName("capacidad");
+            
             entity.Property(e => e.Estado)
                 .HasDefaultValue(true)
                 .HasColumnName("estado");
+            
             entity.Property(e => e.Nombre)
                 .HasMaxLength(255)
                 .HasColumnName("nombre");
@@ -380,9 +454,11 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
             entity.HasIndex(e => e.Simbolo, "unidades_medida_simbolo_key").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+
             entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
                 .HasColumnName("nombre");
+            
             entity.Property(e => e.Simbolo)
                 .HasMaxLength(10)
                 .HasColumnName("simbolo");
@@ -394,40 +470,93 @@ public partial class AppDbContext(DbContextOptions<AppDbContext> options) : DbCo
 
             entity.ToTable("usuarios");
 
-            entity.HasIndex(e => e.NumeroDocumento, "usuarios_numero_documento_key").IsUnique();
+            entity.HasIndex(e => e.Username, "usuarios_username_key").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Apellidos)
-                .HasMaxLength(255)
-                .HasColumnName("apellidos");
-            entity.Property(e => e.Direccion)
-                .HasMaxLength(255)
-                .HasColumnName("direccion");
-            entity.Property(e => e.FechaCreacion)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("fecha_creacion");
-            entity.Property(e => e.FechaNacimiento).HasColumnName("fecha_nacimiento");
+
             entity.Property(e => e.HashPassword)
                 .HasMaxLength(255)
                 .HasColumnName("hash_password");
-            entity.Property(e => e.Nombres)
-                .HasMaxLength(255)
-                .HasColumnName("nombres");
+            
             entity.Property(e => e.Username)
-                .HasMaxLength(255)
+                .HasMaxLength(50)
                 .HasColumnName("username");
-            entity.Property(e => e.NumeroDocumento)
-                .HasMaxLength(20)
-                .HasColumnName("numero_documento");
+
+            entity.Property(e => e.Estado)
+                .HasDefaultValueSql("true")
+                .HasColumnName("estado");
+
+            entity.Property(e => e.FechaCreacion)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("fecha_creacion");
+
             entity.Property(e => e.RolId).HasColumnName("rol_id");
-            entity.Property(e => e.TipoDocumento)
-                .HasMaxLength(20)
-                .HasColumnName("tipo_documento");
 
             entity.HasOne(d => d.Rol).WithMany(p => p.Usuarios)
                 .HasForeignKey(d => d.RolId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("usuarios_rol_id_fkey");
+
+            entity.Property(e => e.EmpleadoId).HasColumnName("empleado_id");
+
+            entity.HasOne(u => u.Empleado).WithOne(e => e.Usuario)
+                .HasForeignKey<Usuario>(u => u.EmpleadoId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("usuarios_empleado_id_fkey");
+        });
+
+        modelBuilder.Entity<Empleado>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("empleado_pkey");
+
+            entity.ToTable("empleados");
+
+            entity.HasIndex(e => e.Email, "empleados_email_key").IsUnique();
+
+            entity.HasIndex(e => e.NumeroDocumento, "empleados_numero_documento_key").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+
+            entity.Property(e => e.Nombres)
+                .HasMaxLength(255)
+                .HasColumnName("nombres");
+            
+            entity.Property(e => e.Apellidos)
+                .HasMaxLength(255)
+                .HasColumnName("apellidos");
+            
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .HasColumnName("email");
+            
+            entity.Property(e => e.Direccion)
+                .HasMaxLength(255)
+                .HasColumnName("direccion");
+            
+            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("now()")
+                .HasColumnName("fecha_creacion");
+            
+            entity.Property(e => e.FechaNacimiento).HasColumnName("fecha_nacimiento");
+            
+            entity.Property(e => e.Nombres)
+                .HasMaxLength(255)
+                .HasColumnName("nombres");
+            
+            entity.Property(e => e.NumeroDocumento)
+                .HasMaxLength(20)
+                .HasColumnName("numero_documento");
+            
+            entity.Property(e => e.TipoDocumento)
+                .HasConversion<string>()
+                .HasColumnName("tipo_documento");
+            
+            entity.Property(e => e.NumeroTelefono)
+                .HasMaxLength(20)
+                .HasColumnName("numero_telefono");
+            
+            entity.Property(e => e.Estado)
+                .HasDefaultValueSql("true")
+                .HasColumnName("estado");
         });
 
         OnModelCreatingPartial(modelBuilder);

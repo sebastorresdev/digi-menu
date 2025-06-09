@@ -3,6 +3,19 @@
 @plugin "tailwindcss-primeui";
 @custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
 
-body {
+
+html {
   font-size: 14px;
+}
+
+/* body {
+   font-family: 'Roboto', sans-serif;
+} */
+
+/* body {
+  font-family: 'IBM Plex Sans', sans-serif;
+} */
+
+body {
+  font-family: 'Poppins', sans-serif;
 }

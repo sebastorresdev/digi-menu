@@ -1,12 +1,12 @@
 <p-menubar [model]="items">
   <ng-template #start>
-    <h1 class="text-3xl font-bold">DIGI MENU</h1>
+    <h1 class="text-3xl font-bold px-8">DIGI MENU</h1>
   </ng-template>
   <ng-template #item let-item let-root="root">
     <a pRipple class="flex items-center p-menubar-item-link" [routerLink]="item.routerLink"
       routerLinkActive="active-route"
       [routerLinkActiveOptions]="item.routerLinkActiveOptions || { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }">
-      @if(item.icon){
+      @if(item.icon) {
         <i [ngClass]="['pi', item.icon]"></i>
       }
       <span>{{ item.label }}</span>
@@ -18,6 +18,7 @@
   <ng-template #end>
     <div class="flex items-center gap-2">
       <p-button [icon]="_layoutService.isDarkTheme ? 'pi pi-moon' : 'pi pi-sun'"
+      [rounded]="true" severity="secondary"
         (click)="_layoutService.onThemeToggle()" size="small" />
       <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
     </div>

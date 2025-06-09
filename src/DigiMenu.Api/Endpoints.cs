@@ -1,6 +1,8 @@
 ﻿using DigiMenu.Api.Authentication.Endpoints;
 using DigiMenu.Api.Common.Api;
 using DigiMenu.Api.Common.Api.Filters;
+using DigiMenu.Api.Features.Empleados.Endpoints;
+using DigiMenu.Api.Features.Roles.Endpoints;
 using DigiMenu.Api.Features.Usuarios.Endpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
@@ -27,8 +29,11 @@ public static class Endpoints
             .AddEndpointFilter<RequestLoggingFilter>()
             .WithOpenApi();
 
+        // Agregar todos los endpoints aquí
         endpoints.MapAuthenticationEndpoints();
         endpoints.MapUserEndpoints();
+        endpoints.MapEmpleadosEndpoints();
+        endpoints.MapRolesEndpoints();
     }
 
     private static void MapAuthenticationEndpoints(this IEndpointRouteBuilder app)
@@ -37,7 +42,6 @@ public static class Endpoints
             .WithTags("Authentication");
             
         endpoints.MapPublicGroup()
-            .MapEndpoint<Signup>()
             .MapEndpoint<Login>();
     }
 
@@ -47,12 +51,44 @@ public static class Endpoints
             .WithTags("Usuarios");
 
         endpoints.MapPublicGroup()
-            .MapEndpoint<GetUsuarioById>()
-            .MapEndpoint<ListarUsuarios>();
+            .MapEndpoint<ObtenerUsuarioPorId>()
+            .MapEndpoint<ListarUsuarios>()
+            .MapEndpoint<CrearUsuario>();
 
         //endpoints.MapAuthorizedGroup()
-        //    .MapEndpoint<FollowUser>()
-        //    .MapEndpoint<UnfollowUser>();
+        //    .MapEndpoint<ObtenerUsuarioPorId>()
+        //    .MapEndpoint<ListarUsuarios>();
+    }
+
+    private static void MapEmpleadosEndpoints(this IEndpointRouteBuilder app)
+    {
+        var endpoints = app.MapGroup("/empleados")
+            .WithTags("Empleados");
+
+        endpoints.MapPublicGroup()
+            .MapEndpoint<ListarEmpleados>()
+            .MapEndpoint<ListarNombreDniEmpleados>()
+            .MapEndpoint<CrearEmpleado>()
+            .MapEndpoint<EditarEmpleado>()
+            .MapEndpoint<EliminarEmpleado>();
+
+        //endpoints.MapAuthorizedGroup()
+        //    .MapEndpoint<ListarEmpleados>()
+        //    .MapEndpoint<CrearEmpleado>();
+    }
+
+    private static void MapRolesEndpoints(this IEndpointRouteBuilder app)
+    {
+        var endpoints = app.MapGroup("/roles")
+            .WithTags("Roles");
+
+        endpoints.MapPublicGroup()
+            .MapEndpoint<ListarRoles>()
+            .MapEndpoint<CrearRol>();
+
+        //endpoints.MapAuthorizedGroup()
+        //    .MapEndpoint<ListarRoles>()
+        //    .MapEndpoint<CrearRol>();
     }
 
     private static RouteGroupBuilder MapPublicGroup(this IEndpointRouteBuilder app, string? prefix = null)

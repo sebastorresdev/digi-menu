@@ -7,14 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DigiMenu.Api.Features.Usuarios.Endpoints;
 
-public class GetUsuarioById : IEndpoint
+public class ObtenerUsuarioPorId : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app) => app
         .MapGet("/{id:int}", Handle)
-        .WithSummary("Get usuario by Id")
+        .WithSummary("Obtener usuario por Id")
         .WithRequestValidation<Request>();
 
     public record Request(int Id);
+
     public class RequestValidator : AbstractValidator<Request>
     {
         public RequestValidator()
@@ -25,27 +26,24 @@ public class GetUsuarioById : IEndpoint
 
     public record Response(
         int Id,
-        string Nombres,
-        string Apellidos,
-        string? Direccion,
-        DateTime? FechaCreacion,
-        string Username
-        );
+        string Username,
+        DateTime FechaCreacion,
+        string RolName);
+
 
     public static async Task<Results<Ok<Response>, NotFound>> Handle(
-        [AsParameters] Request request, 
-        AppDbContext database, 
+        [AsParameters] Request request,
+        AppDbContext database,
         CancellationToken cancellationToken)
     {
         var usuario = await database.Usuarios
+            .AsNoTracking()
             .Where(x => x.Id == request.Id)
             .Select(x => new Response(
                 x.Id,
-                x.Nombres,
-                x.Apellidos,
-                x.Direccion,
+                x.Username,
                 x.FechaCreacion,
-                x.Username
+                x.Rol.Nombre
             ))
             .SingleOrDefaultAsync(cancellationToken);
 
@@ -53,5 +51,4 @@ public class GetUsuarioById : IEndpoint
             ? TypedResults.NotFound()
             : TypedResults.Ok(usuario);
     }
-
 }

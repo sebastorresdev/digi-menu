@@ -1,0 +1,76 @@
+<p-card>
+  <p-toolbar styleClass="mb-6">
+    <ng-template #start>
+      <p-button label="Nuevo" icon="pi pi-plus" class="mr-2" (click)="abrirDialogCrearEmpleado()" />
+      <p-button severity="danger" label="Eliminar" icon="pi pi-trash" outlined />
+    </ng-template>
+
+    <ng-template #end>
+      <p-button label="Exportar" icon="pi pi-upload" severity="secondary" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="empleados" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [resizableColumns]="true"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [showCurrentPageReport]="true">
+    <ng-template #caption>
+      <div class="flex items-center justify-between">
+        <h5 class="font-bold">Lista de usuarios</h5>
+        <p-iconfield>
+          <p-inputicon styleClass="pi pi-search" />
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Search..." />
+        </p-iconfield>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Tipo Documento</th>
+        <th>Número Documento</th>
+        <th>Email</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Fecha Nacimiento</th>
+        <th>Fecha Creación</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+
+    </ng-template>
+
+    <ng-template #body let-empleado>
+      <tr>
+        <td>{{ empleado.nombres }}</td>
+        <td>{{ empleado.apellidos }}</td>
+        <td>{{ empleado.tipoDocumento }}</td>
+        <td>{{ empleado.numeroDocumento }}</td>
+        <td>{{ empleado.email }}</td>
+        <td>{{ empleado.direccion }}</td>
+        <td>{{ empleado.numeroTelefono }}</td>
+        <td>{{ empleado.fechaNacimiento | date: 'dd/MM/YYYY' }}</td>
+        <td>{{ empleado.fechaCreacion | date: 'dd/MM/YYYY' }}</td>
+        <td>
+          <p-tag [value]="empleado.estado ? 'Activo' : 'Inactivo'" [severity]="getSeverity(empleado.estado)" />
+        </td>
+        <td>
+          <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+            (click)="abrirDialogEditarEmpleado(empleado)" />
+          <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+            (click)="eliminarEmpleado(empleado.id)" />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex items-center justify-between">En total hay {{ empleados ? empleados.length : 0 }} usuarios.
+      </div>
+    </ng-template>
+  </p-table>
+</p-card>
+
+@if (mostrarDialog) {
+  <app-empleado-dialog [(visible)]="mostrarDialog" [modoDialog]="modoDialog" [(empleado)]="empleadoSeleccionado" (cancelarDialog)="mostrarDialog = false"
+   (guardar)="guardarEmpleado($event)"/>
+}

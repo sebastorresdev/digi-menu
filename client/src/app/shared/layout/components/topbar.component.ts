@@ -25,10 +25,7 @@ export class TopbarComponent {
 
   _layoutService = inject(LayoutService);
 
-  constructor() {
-    console.log('TopbarComponent Creado');
-   }
-
+  constructor() {}
 
   ngOnInit() {
     this.items = [
@@ -46,7 +43,12 @@ export class TopbarComponent {
             label: 'Usuarios',
             icon: 'pi pi-user',
             routerLink: ['/usuarios'],
-          }
+          },
+          {
+            label: 'Empleados',
+            icon: 'pi pi-id-card',
+            routerLink: ['/empleados'],
+          },
         ],
       },
     ];

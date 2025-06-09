@@ -1,4 +1,6 @@
-﻿namespace DigiMenu.Api.Data.Entities;
+﻿using DigiMenu.Api.Data.Enums;
+
+namespace DigiMenu.Api.Data.Entities;
 
 public partial class Mesa : IEntity
 {
@@ -8,7 +10,7 @@ public partial class Mesa : IEntity
 
     public int Capacidad { get; set; }
 
-    public string? Estado { get; set; }
+    public EstadoMesa EstadoMesa { get; set; }
 
     public int SalonId { get; set; }
 
