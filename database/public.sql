@@ -12,7 +12,7 @@
  Target Server Version : 170000 (170000)
  File Encoding         : 65001
 
- Date: 08/06/2025 21:16:19
+ Date: 12/07/2025 15:46:51
 */
 
 
@@ -283,6 +283,7 @@ INSERT INTO "public"."empleados" VALUES (1, 'Sebastian David', 'Torres Chavez', 
 INSERT INTO "public"."empleados" VALUES (10, 'Flavia', 'Torres Robles', 'ftr19102020@gmail.com', 'Jr Corregidores 147 - villa fatima - rimac', '2020-10-19 00:00:00-05', 'DNI', '90224436', '948965621', '2025-06-08 03:43:55.669393-05', 't');
 INSERT INTO "public"."empleados" VALUES (5, 'July Nelly', 'Torres Chavez', NULL, NULL, '1994-01-03 23:00:00-05', 'DNI', '70278923', '948965622', '2025-06-07 22:47:44.240578-05', 't');
 INSERT INTO "public"."empleados" VALUES (11, 'Nelly Jacobita', 'Chavez Aspajo', NULL, NULL, '1970-04-02 00:00:00-05', 'DNI', '08098221', '987678987', '2025-06-08 03:53:34.380947-05', 't');
+INSERT INTO "public"."empleados" VALUES (12, 'roel', 'gamboa ejem', NULL, NULL, '2010-02-03 00:00:00-05', 'DNI', '479316257', NULL, '2025-07-12 15:43:29.852892-05', 't');
 
 -- ----------------------------
 -- Table structure for empresa
@@ -636,7 +637,7 @@ SELECT setval('"public"."categorias_productos_id_seq"', 1, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."empleados_id_seq"
 OWNED BY "public"."empleados"."id";
-SELECT setval('"public"."empleados_id_seq"', 11, true);
+SELECT setval('"public"."empleados_id_seq"', 12, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -771,7 +772,7 @@ ALTER TABLE "public"."categorias_productos" ADD CONSTRAINT "categorias_productos
 -- ----------------------------
 -- Auto increment value for empleados
 -- ----------------------------
-SELECT setval('"public"."empleados_id_seq"', 11, true);
+SELECT setval('"public"."empleados_id_seq"', 12, true);
 
 -- ----------------------------
 -- Indexes structure for table empleados
